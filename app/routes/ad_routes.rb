@@ -1,10 +1,11 @@
 class AdRoutes < Application
   helpers PaginationLinks
+
   namespace '/v1' do
     get do
-      page = params[:page]presence || 1
+      page = params[:page].presence || 1
       ads = Ad.reverse_order(:updated_at)
-      ads = ads.paginate(page.to_i, Settings.pagination)
+      ads = ads.paginate(page.to_i, Settings.pagination.page_size)
       serializer = AdSerializer.new(ads.all, links: pagination_links(ads))
 
       json serializer.serializable_hash
