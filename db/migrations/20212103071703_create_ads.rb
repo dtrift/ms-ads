@@ -7,8 +7,8 @@ Sequel.migration do
       column :title, 'character varying', null: false
       column :description, 'text', null: false
       column :city, 'character varying', null: false
-      column :lan, 'double precision', null: false
-      column :lot, 'double precision', null: false
+      column :lan, 'double precision'
+      column :lot, 'double precision'
       
       column :created_at, 'timestamp(6) without time zone', null: false
       column :updated_at, 'timestamp(6) without time zone', null: false
