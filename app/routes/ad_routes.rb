@@ -1,23 +1,31 @@
 class AdRoutes < Application
+  helpers PaginationLinks
   namespace '/v1' do
     get do
-      ads = Ad.order(updated_at: :desc).page(params[:page])
-      serializer = AdSerializer.new(ads, links: pagination_links(ads))
+      page = params[:page]presence || 1
+      ads = Ad.reverse_order(:updated_at)
+      ads = ads.paginate(page.to_i, Settings.pagination)
+      serializer = AdSerializer.new(ads.all, links: pagination_links(ads))
 
-      render json: serializer.serialized_json
+      json serializer.serializable_hash
     end
 
     post do
+      ad_params = validate_with!(AdParamsContract)
+
       result = Ads::CreateService.call(
-        ad: ad_params,
-        user: current_user
+        ad: ad_params[:ad],
+        user_id: params[:user_id]
       )
 
       if result.success?
         serializer = AdSerializer.new(result.ad)
-        render json: serializer.serialized_json, status: :created
+
+        status 201
+        json serializer.serializable_hash
       else
-        error_response(result.ad, :unprocessable_entity)
+        status 422
+        error_response result.ad
       end
     end
   end
