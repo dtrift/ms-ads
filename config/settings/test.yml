@@ -1,0 +1,3 @@
+db:
+  database: ads_ms_test
+  max_connections: 1
