@@ -37,7 +37,7 @@ RSpec.describe AdRoutes, type: :routes do
       it 'returns an error' do
         post '/v1', ad: ad_params, user_id: user_id
 
-        expect(last_response.staus).to eq(422)
+        expect(last_response.status).to eq(422)
         expect(response_body['errors']).to include(
           {
             'detail' => 'Укажите город',
