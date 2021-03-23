@@ -19,7 +19,10 @@ module ApplicationLoader
   end
 
   def require_app
-    require_dir 'app/helpers'
+    require_file 'app/helpers/validations'
+    require_file 'app/helpers/api_errors'
+    require_file 'app/helpers/pagination_links'
+    
     require_file 'config/application'
     require_file 'app/services/basic_service'
     require_dir 'app/contracts'
