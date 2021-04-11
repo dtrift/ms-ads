@@ -6,6 +6,9 @@ module Ads
       option :title
       option :description
       option :city
+
+      option :lat
+      option :lon
     end
 
     option :user_id
